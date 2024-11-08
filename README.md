@@ -1,0 +1,1 @@
+Código para pegar foto da camera de dispositivos moveis, caso o usuario tente utilizar em dispositivos desktop ele retorna uma mensagem de erro
