@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const previewUrl = ref(null);
 
@@ -14,6 +14,26 @@ function showPreview(event) {
     reader.readAsDataURL(file);
   }
 }
+
+  const userLocationPermission = ref(false);
+const userLocation = ref("");
+
+const successCallback = (position) => {
+  userLocationPermission.value = true;
+  userLocation.value = position;
+};
+
+const errorCallback = () => {
+  toast.error(t("webExecution.locationPermissionDenied"));
+};
+
+const getLocation = () => {
+  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+};
+
+onMounted(() => {
+  getLocation();
+});
 </script>
 
 <template>
@@ -27,6 +47,12 @@ function showPreview(event) {
     />
 
     <img id="preview" :src="previewUrl" alt="Preview" v-if="previewUrl" />
+
+    <hr/>
+    
+    <button @click="getLocation">
+      Permitir Acesso a Localização
+    </button>
   </div>
 </template>
 
